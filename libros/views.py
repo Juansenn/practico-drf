@@ -1,9 +1,22 @@
+from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .models import Libro
 from .serializers import LibroSerializer
+
+
+def home(request):
+    libros = Libro.objects.all()
+    total = libros.count()
+    disponibles = libros.filter(disponible=True).count()
+    context = {
+        "libros": libros,
+        "total": total,
+        "disponibles": disponibles,
+    }
+    return render(request, "libros/home.html", context)
 
 
 @api_view(["GET", "POST"])

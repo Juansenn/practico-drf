@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca El Plan</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+    .hero {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 60%, #1e1b4b 100%);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p { color: #94a3b8; margin-top: 0.75rem; font-size: 1.1rem; }
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      min-width: 140px;
+    }
+    .stat .num { font-size: 2rem; font-weight: 700; color: #60a5fa; }
+    .stat .label { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+    .card h3 { font-size: 1.2rem; color: #f1f5f9; }
+    .card .autor { color: #60a5fa; font-size: 0.95rem; }
+    .card .meta { color: #94a3b8; font-size: 0.85rem; }
+    .badge {
+      align-self: flex-start;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge.ok { background: #065f46; color: #6ee7b7; }
+    .badge.no { background: #7f1d1d; color: #fca5a5; }
+    .api-link {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .api-link a {
+      color: #60a5fa;
+      text-decoration: none;
+      border: 1px solid #334155;
+      padding: 0.6rem 1.5rem;
+      border-radius: 999px;
+      background: #1e293b;
+      transition: background 0.2s;
+    }
+    .api-link a:hover { background: #334155; }
+    footer {
+      text-align: center;
+      color: #64748b;
+      padding: 2rem;
+      border-top: 1px solid #1e293b;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <h1>📚 Biblioteca El Plan</h1>
+    <p>API REST de gestión de libros · Primer Práctico DRF</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="num">{{ total }}</div>
+        <div class="label">Libros</div>
+      </div>
+      <div class="stat">
+        <div class="num">{{ disponibles }}</div>
+        <div class="label">Disponibles</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="grid">
+      {% for libro in libros %}
+      <div class="card">
+        <h3>{{ libro.titulo }}</h3>
+        <div class="autor">✍️ {{ libro.autor }}</div>
+        <div class="meta">🏷️ {{ libro.genero }} &nbsp;·&nbsp; 📅 {{ libro.anio }}</div>
+        <div class="meta">🏢 {{ libro.editorial|default:"Sin editorial" }}</div>
+        {% if libro.disponible %}
+          <span class="badge ok">DISPONIBLE</span>
+        {% else %}
+          <span class="badge no">PRESTADO</span>
+        {% endif %}
+      </div>
+      {% empty %}
+      <p style="grid-column: 1/-1; text-align:center; color:#94a3b8;">No hay libros cargados todavía.</p>
+      {% endfor %}
+    </div>
+
+    <div class="api-link">
+      <a href="/api/libros/">Explorar la API →</a>
+    </div>
+  </main>
+
+  <footer>Django REST Framework · Vistas funcionales con @api_view</footer>
+</body>
+</html>

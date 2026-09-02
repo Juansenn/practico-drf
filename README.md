@@ -23,6 +23,17 @@ uv run python manage.py runserver
 
 El servidor queda disponible en `http://127.0.0.1:8000/`.
 
+Para cargar **libros de ejemplo** en la base:
+
+```bash
+uv run python manage.py seed_libros
+```
+
+## Interfaz web
+
+En la raíz (`http://127.0.0.1:8000/`) hay una pequeña interfaz que muestra los libros
+cargados, junto con estadísticas (total y disponibles). La API vive bajo `/api/`.
+
 ## Modelo
 
 ### Libro
